@@ -290,7 +290,9 @@ public class PMedia extends ProtoBase {
     @PhonkMethodParam(params = "")
     public PMidiController startMidiController() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return new PMidiController(getAppRunner());
+            final PMidiController pMidiController = new PMidiController(getAppRunner());
+            pMidiController.initForParentFragment(getFragment());
+            return pMidiController;
         } else {
             Toast.makeText(getContext(), "MIDI not supported on your Android version!", Toast.LENGTH_LONG)
                     .show();

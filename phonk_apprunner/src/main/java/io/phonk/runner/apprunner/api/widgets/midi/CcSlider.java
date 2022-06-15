@@ -34,10 +34,12 @@ public class CcSlider extends AbstractMidiWidget {
                 .verticalMode(true)
                 .mode("drag")
                 .onChange(this::midiAction);
+        pMidiController.ccSliders.put(PMidiController.STATUS_CC + channel + cc, this);  // FIXME
     }
 
     @PhonkMethod()
     public CcSlider withChannel(final int channel) {
+        pMidiController.ccSliders.put(PMidiController.STATUS_CC + channel + cc, this);  // FIXME
         this.channel = channel;
         return this;
     }
@@ -57,6 +59,10 @@ public class CcSlider extends AbstractMidiWidget {
     @PhonkMethod()
     public PSlider slider() {
         return pSlider;
+    }
+
+    public int getId() {
+        return PMidiController.STATUS_CC + channel + cc;
     }
 
     private void midiAction(final ReturnObject r) {
