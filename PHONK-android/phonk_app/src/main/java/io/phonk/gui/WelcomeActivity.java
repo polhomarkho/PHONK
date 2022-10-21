@@ -173,7 +173,7 @@ public class WelcomeActivity extends BaseActivity {
         new File(PhonkSettings.getBaseLibrariesDir()).mkdirs();
 
         // install examples
-        PhonkSettingsHelper.installExamples(getApplicationContext(), PhonkSettings.EXAMPLES_FOLDER, () -> runOnUiThread(() -> goToStep(STEP_INSTALL_EXAMPLES_OK)));
+        PhonkSettingsHelper.installFiles(getApplicationContext(), PhonkSettings.EXAMPLES_FOLDER, () -> runOnUiThread(() -> goToStep(STEP_INSTALL_EXAMPLES_OK)));
     }
 
     public void ready() {

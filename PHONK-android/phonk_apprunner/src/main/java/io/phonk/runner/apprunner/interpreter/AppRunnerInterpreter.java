@@ -30,7 +30,16 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
+import org.mozilla.javascript.commonjs.module.RequireBuilder;
+import org.mozilla.javascript.commonjs.module.provider.SoftCachingModuleScriptProvider;
+import org.mozilla.javascript.commonjs.module.provider.UrlModuleSourceProvider;
 import org.mozilla.javascript.debug.Debugger;
+
+import java.io.File;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import io.phonk.runner.apprunner.AppRunner;
 import io.phonk.runner.apprunner.permissions.PermissionNotGrantedException;
@@ -79,6 +88,13 @@ public class AppRunnerInterpreter {
         rhino.setOptimizationLevel(-1);
 
         scope = rhino.initStandardObjects();
+
+        List<URI> paths = Collections.singletonList(new File("/storage/emulated/0/phonk_io/libraries").toURI());
+        new RequireBuilder()
+                .setModuleScriptProvider(new SoftCachingModuleScriptProvider(new UrlModuleSourceProvider(paths, null)))
+                .setSandboxed(true)
+                .createRequire(rhino, scope)
+                .install(scope);
 
         //let rhino do some java <-> js transformations for us
         rhino.getWrapFactory().setJavaPrimitiveWrap(false);

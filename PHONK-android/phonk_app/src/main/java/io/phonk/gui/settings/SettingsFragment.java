@@ -43,7 +43,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.TwoStatePreference;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import io.phonk.BuildConfig;
 import io.phonk.R;
@@ -54,7 +53,6 @@ import io.phonk.gui.projectbrowser.projectlist.ProjectListFragment;
 import io.phonk.helpers.PhonkAppHelper;
 import io.phonk.helpers.PhonkSettingsHelper;
 import io.phonk.runner.base.models.Project;
-import io.phonk.runner.base.utils.MLog;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -302,8 +300,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     .setCancelable(false).setPositiveButton("Yes", (dialog, which) -> {
                 progress.show();
 
-                PhonkSettingsHelper.installExamples(getActivity(), PhonkSettings.EXAMPLES_FOLDER,
-                        () -> progress.dismiss());
+                PhonkSettingsHelper.installFiles(getActivity(), PhonkSettings.EXAMPLES_FOLDER,
+                        progress::dismiss);
+                PhonkSettingsHelper.installFiles(getActivity(), PhonkSettings.LIBRARIES_FOLDER,
+                        progress::dismiss);
                 dialog.cancel();
             }).setNegativeButton("No", (dialog, which) -> dialog.cancel()).show();
 
